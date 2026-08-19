@@ -113,12 +113,11 @@ class SupabaseManager {
 
     this.isRemoteApplying = true;
     this.lastSentPayloadHash = payloadHash;
-    appState.sections = sections;
-    appState.save();
+    appState.applyRemoteUpdate(sections);
     this.isRemoteApplying = false;
 
-    // Optional subtle badge notification
-    console.log(`Synced from ${sourceDevice}`);
+    // Optional subtle console telemetry
+    console.log(`⚡ Supabase Live Synced from ${sourceDevice}`);
   }
 
   // Fetch initial data on startup to ensure instant cross-device parity

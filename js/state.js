@@ -52,6 +52,22 @@ class AppState {
     cloudSync.pushToCloud();
   }
 
+  // Apply updates from remote Supabase stream without bouncing back
+  applyRemoteUpdate(sections) {
+    if (!sections || !Array.isArray(sections)) return;
+    this.sections = sections;
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({
+        version: '1.2',
+        updatedAt: new Date().toISOString(),
+        sections: this.sections
+      }));
+    } catch (e) {
+      console.error('Failed to save remote data to localStorage', e);
+    }
+    this.notify();
+  }
+
   subscribe(listener) {
     this.listeners.push(listener);
     return () => {
