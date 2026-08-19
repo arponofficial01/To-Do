@@ -9,10 +9,10 @@ import { showToast } from './modals.js';
 
 const SUPABASE_STORAGE_KEY = 'arpon_supabase_config_v1';
 
-// Default Supabase project configuration (Can be overridden by user in UI)
+// User's configured Supabase project configuration
 const DEFAULT_SUPABASE_CONFIG = {
-  url: 'https://zrhdudkxquxoxsrmbexs.supabase.co',
-  anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpyaGR1ZGt4cXV4b3hzcm1iZXhzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDgwMDAwMDAsImV4cCI6MjAyMzU3NjAwMH0.sampleKey',
+  url: 'https://vahtkuhruwzjyzmrvskv.supabase.co',
+  anonKey: 'sb_publishable_9ZJtBGLaq_GvpokdnpYkJQ_ZVBuZyqM',
   tableName: 'arpon_todos',
   userId: 'arpon_official01'
 };
