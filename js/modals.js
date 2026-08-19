@@ -538,8 +538,21 @@ export function showSyncModal() {
             <span style="font-size: 0.72rem; color: var(--text-muted);">Ensure this key matches across your PC and iPhone.</span>
           </div>
 
-          <div style="display: flex; gap: 10px; margin-top: 14px;">
-            <button type="submit" class="btn-primary-gold" style="flex: 1;">Save Sync Key</button>
+          <div style="border-top: 1px solid var(--border-subtle); padding-top: 14px; margin-top: 4px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+              <span class="form-label" style="margin-bottom: 0;">Supabase Database Integration</span>
+              <span style="font-size: 0.7rem; color: var(--accent-emerald); font-family: var(--font-mono);">PostgreSQL Ready</span>
+            </div>
+            <div class="form-group" style="margin-bottom: 8px;">
+              <input type="text" id="input-supabase-url" class="form-input" placeholder="Supabase Project URL (optional)" style="font-size: 0.78rem;" />
+            </div>
+            <div class="form-group">
+              <input type="password" id="input-supabase-key" class="form-input" placeholder="Supabase Anon Key (optional)" style="font-size: 0.78rem;" />
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 10px; margin-top: 16px;">
+            <button type="submit" class="btn-primary-gold" style="flex: 1;">Save & Sync</button>
             <button type="button" id="btn-force-sync" class="btn-ghost" style="flex: 1;">Force Sync Now</button>
           </div>
         </form>
@@ -555,8 +568,17 @@ export function showSyncModal() {
   form.onsubmit = async (e) => {
     e.preventDefault();
     const val = modal.querySelector('#input-sync-key').value.trim();
+    const supaUrl = modal.querySelector('#input-supabase-url').value.trim();
+    const supaKey = modal.querySelector('#input-supabase-key').value.trim();
+
     const { cloudSync } = await import('./sync.js');
     cloudSync.setSyncPasscode(val);
+
+    if (supaUrl && supaKey) {
+      const { supabaseManager } = await import('./supabase.js');
+      supabaseManager.updateConfig({ url: supaUrl, anonKey: supaKey });
+    }
+
     closeModal('modal-sync-settings');
   };
 

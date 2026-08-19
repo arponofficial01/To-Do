@@ -6,22 +6,18 @@
 
 import { appState } from './state.js';
 import { showToast } from './modals.js';
+import { supabaseManager } from './supabase.js';
 
 // Default private sync vault key for Arpon Chakraborty
 const DEFAULT_SYNC_KEY = 'arpon_official01_malaysia2027_vault';
 const SYNC_CONFIG_STORAGE_KEY = 'arpon_sync_config_v1';
 
-// Public distributed cloud KV sync endpoints (fast, zero setup, real-time fallback)
-const CLOUD_SYNC_ENDPOINT = 'https://api.jsonbin.io/v3/b';
-
 class CloudSyncEngine {
   constructor() {
     this.syncKey = DEFAULT_SYNC_KEY;
-    this.binId = null;
-    this.accessKey = '$2a$10$7vM7j5m9K2gX1uK1l0X.ye8eJ1fV1c.qZ6.q4x9Z0w8b7c6d5e4f'; // Default public relay key or custom
     this.isSyncing = false;
     this.lastSyncedAt = null;
-    this.status = 'connected'; // 'connected' | 'syncing' | 'offline' | 'error'
+    this.status = 'connected'; // 'connected' | 'syncing' | 'offline'
     this.pollInterval = null;
     this.isRemoteApplying = false;
     this.listeners = [];
@@ -67,6 +63,10 @@ class CloudSyncEngine {
     this.setStatus('syncing');
 
     try {
+      // 1. Push to Supabase if connected
+      supabaseManager.pushData(appState.sections);
+
+      // 2. Push to Cloud Storage channel
       const payload = {
         updatedAt: new Date().toISOString(),
         device: navigator.userAgent.includes('iPhone') ? 'iOS' : 'PC',
@@ -74,7 +74,6 @@ class CloudSyncEngine {
         sections: appState.sections
       };
 
-      // Use KV storage channel via hash identifier
       const endpoint = `https://kvdb.io/4y9nQe8c1k2v8z7x6/arpon_${this.syncKey}`;
       
       const res = await fetch(endpoint, {
@@ -87,10 +86,9 @@ class CloudSyncEngine {
         this.lastSyncedAt = new Date();
         this.setStatus('connected');
       } else {
-        this.setStatus('connected'); // Still connected locally
+        this.setStatus('connected');
       }
     } catch (e) {
-      // Offline fallback
       this.setStatus('offline');
     }
   }
