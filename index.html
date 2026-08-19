@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>Arpon — Malaysia 2027 | INTI Computer Science Preparation</title>
+  <meta name="description" content="Personal premium preparation command center and checklist for Arpon Chakraborty's Computer Science studies at INTI Malaysia (January 2027 Intake).">
+  <meta name="author" content="Arpon Chakraborty (@arpon.official01)">
+  <meta name="theme-color" content="#08090D">
+
+  <!-- Google Fonts: Plus Jakarta Sans & Cinzel (Luxury Minimalist Pairing) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+  <!-- Application Stylesheets -->
+  <link rel="stylesheet" href="css/luxury-tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <!-- Mobile Backdrop Overlay -->
+  <div class="mobile-backdrop" id="mobile-backdrop"></div>
+
+  <div class="app-wrapper">
+    <!-- ====================================================================
+         DESKTOP SIDEBAR
+         ==================================================================== -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="brand-seal">
+          <span class="brand-seal-letter">A</span>
+        </div>
+        <div class="brand-info">
+          <div class="brand-title">ARPON</div>
+          <div class="brand-sub">Malaysia 2027</div>
+          <div class="brand-handle">@arpon.official01</div>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav" id="sidebar-nav">
+        <!-- Dynamically rendered via JS -->
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-progress-card">
+          <div class="sidebar-progress-header">
+            <span class="sidebar-progress-title">Overall Progress</span>
+            <span class="sidebar-progress-percent" id="sidebar-progress-percent">0%</span>
+          </div>
+          <div class="sidebar-progress-track">
+            <div class="sidebar-progress-fill" id="sidebar-progress-fill" style="width: 0%;"></div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ====================================================================
+         MAIN CONTENT SHELL
+         ==================================================================== -->
+    <div class="main-content">
+      <!-- TOP LUXURY HEADER -->
+      <header class="top-header">
+        <div class="header-left">
+          <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle navigation menu">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </button>
+
+          <div style="display: flex; align-items: baseline;">
+            <span class="header-brand-title">ARPON</span>
+            <span class="header-brand-sub">Malaysia 2027</span>
+          </div>
+        </div>
+
+        <div class="header-center">
+          <div class="global-search-trigger" id="header-search-trigger" role="button" tabindex="0" title="Quick Search & Navigation (Ctrl+K)">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <span>Search tasks & sections...</span>
+            <span class="search-shortcut-badge">⌘K</span>
+          </div>
+        </div>
+
+        <div class="header-right">
+          <div class="header-progress-pill" id="header-progress-pill" title="Overall Preparation Progress">
+            <span class="header-radar-dot"></span>
+            <span class="header-progress-label">Progress</span>
+            <span class="header-progress-value" id="header-progress-val">0% (0/0)</span>
+          </div>
+
+          <button class="header-btn" id="btn-header-data" title="Backup & Data Management" aria-label="Backup & Data Management">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+              <polyline points="17 21 17 13 7 13 7 21"></polyline>
+              <polyline points="7 3 7 8 15 8"></polyline>
+            </svg>
+          </button>
+        </div>
+      </header>
+
+      <!-- ACTIVE VIEW CONTAINER -->
+      <main class="page-container" id="view-container">
+        <!-- Rendered dynamically by renderApp() -->
+      </main>
+
+      <!-- FOOTER -->
+      <footer class="app-footer">
+        <div class="footer-left">
+          <span class="footer-brand">Arpon Chakraborty • Malaysia 2027</span>
+          <span style="color: var(--text-tertiary);">| INTI Computer Science AUP/ADTP</span>
+        </div>
+        <div class="footer-right">
+          <span>Target: Jan 2027 Intake</span>
+          <span>•</span>
+          <span style="color: var(--text-gold);">Private Dashboard</span>
+        </div>
+      </footer>
+    </div>
+  </div>
+
+  <!-- MOBILE BOTTOM NAVIGATION -->
+  <nav class="mobile-bottom-nav" id="mobile-bottom-nav">
+    <!-- Rendered dynamically via JS -->
+  </nav>
+
+  <!-- Toast Notification Anchor -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- JavaScript Entry Point -->
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
