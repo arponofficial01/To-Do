@@ -88,6 +88,32 @@ function initGlobalEventListeners() {
     dataBtn.addEventListener('click', () => showDataModal());
   }
 
+  // Global cloud sync modal trigger
+  const syncBtn = document.getElementById('btn-header-sync');
+  if (syncBtn) {
+    syncBtn.addEventListener('click', () => {
+      import('./modals.js').then(m => m.showSyncModal());
+    });
+  }
+
+  // Cloud sync status listener
+  import('./sync.js').then(({ cloudSync }) => {
+    cloudSync.subscribe((engine) => {
+      const pill = document.getElementById('btn-header-sync');
+      const label = document.getElementById('sync-label');
+      if (pill && label) {
+        pill.className = `header-sync-pill ${engine.status}`;
+        if (engine.status === 'syncing') {
+          label.textContent = 'Syncing...';
+        } else if (engine.status === 'offline') {
+          label.textContent = 'Offline (Local)';
+        } else {
+          label.textContent = 'Cloud Synced';
+        }
+      }
+    });
+  });
+
   // Mobile menu drawer toggle
   const mobileMenuBtn = document.getElementById('mobile-menu-btn');
   const mobileBackdrop = document.getElementById('mobile-backdrop');

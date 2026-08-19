@@ -4,6 +4,7 @@
  */
 
 import { INITIAL_SECTIONS, INTAKE_CONFIG, PREPARATION_STAGES } from './data.js';
+import { cloudSync } from './sync.js';
 
 const STORAGE_KEY = 'arpon_malaysia_2027_data_v1.2';
 
@@ -48,6 +49,7 @@ class AppState {
       console.error('Failed to save to localStorage', e);
     }
     this.notify();
+    cloudSync.pushToCloud();
   }
 
   subscribe(listener) {

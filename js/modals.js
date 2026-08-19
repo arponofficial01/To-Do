@@ -499,3 +499,74 @@ export function showDataModal() {
 
   openModal('modal-data-backup');
 }
+
+// ==========================================================================
+// SYNC SETTINGS MODAL (PC & iOS SYNC)
+// ==========================================================================
+export function showSyncModal() {
+  let modal = document.getElementById('modal-sync-settings');
+  if (!modal) {
+    modal = document.createElement('div');
+    modal.id = 'modal-sync-settings';
+    modal.className = 'modal-backdrop';
+    document.body.appendChild(modal);
+  }
+
+  modal.innerHTML = `
+    <div class="modal-card" style="max-width: 500px;">
+      <div class="modal-header">
+        <div class="modal-title">Live Cloud Database & Device Sync</div>
+        <button class="modal-close-btn" data-close-modal="modal-sync-settings">${ICONS.close}</button>
+      </div>
+
+      <div class="modal-body">
+        <div style="display: flex; align-items: center; gap: 10px; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.25); padding: 12px 16px; border-radius: var(--radius-md);">
+          <div class="sync-dot" style="width: 10px; height: 10px;"></div>
+          <div style="font-size: 0.85rem; color: var(--text-primary); font-weight: 600;">
+            Real-Time Cloud Synchronization Active
+          </div>
+        </div>
+
+        <p style="font-size: 0.86rem; color: var(--text-secondary); line-height: 1.55;">
+          Your checklist is continuously synchronized with the secure cloud database. To connect your iPhone, simply open your live app URL on your iOS Safari browser. Both devices share the same sync key.
+        </p>
+
+        <form id="form-sync-key">
+          <div class="form-group">
+            <label class="form-label" for="input-sync-key">Private Sync Vault Key</label>
+            <input type="text" id="input-sync-key" class="form-input" value="arpon_official01_malaysia2027_vault" style="font-family: var(--font-mono); font-size: 0.82rem;" />
+            <span style="font-size: 0.72rem; color: var(--text-muted);">Ensure this key matches across your PC and iPhone.</span>
+          </div>
+
+          <div style="display: flex; gap: 10px; margin-top: 14px;">
+            <button type="submit" class="btn-primary-gold" style="flex: 1;">Save Sync Key</button>
+            <button type="button" id="btn-force-sync" class="btn-ghost" style="flex: 1;">Force Sync Now</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn-ghost" data-close-modal="modal-sync-settings">Close</button>
+      </div>
+    </div>
+  `;
+
+  const form = modal.querySelector('#form-sync-key');
+  form.onsubmit = async (e) => {
+    e.preventDefault();
+    const val = modal.querySelector('#input-sync-key').value.trim();
+    const { cloudSync } = await import('./sync.js');
+    cloudSync.setSyncPasscode(val);
+    closeModal('modal-sync-settings');
+  };
+
+  const forceBtn = modal.querySelector('#btn-force-sync');
+  forceBtn.onclick = async () => {
+    const { cloudSync } = await import('./sync.js');
+    await cloudSync.pushToCloud();
+    await cloudSync.pullFromCloud();
+    showToast('Force synchronized with Cloud Database!', 'success');
+  };
+
+  openModal('modal-sync-settings');
+}

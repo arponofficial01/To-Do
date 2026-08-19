@@ -368,6 +368,48 @@
   gap: 14px;
 }
 
+.header-sync-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(20, 24, 36, 0.7);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-full);
+  padding: 6px 14px;
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--duration-fast);
+  box-shadow: var(--inset-highlight);
+}
+
+.header-sync-pill:hover {
+  border-color: var(--border-gold-subtle);
+  background: rgba(26, 31, 46, 0.85);
+  color: var(--text-primary);
+  transform: translateY(-1px);
+}
+
+.sync-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent-emerald);
+  box-shadow: 0 0 6px var(--accent-emerald);
+}
+
+.header-sync-pill.syncing .sync-dot {
+  background: var(--accent-amber);
+  box-shadow: 0 0 6px var(--accent-amber);
+  animation: radarPulse 1s infinite;
+}
+
+.header-sync-pill.offline .sync-dot {
+  background: var(--text-muted);
+  box-shadow: none;
+}
+
 .header-progress-pill {
   display: flex;
   align-items: center;
