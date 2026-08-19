@@ -1,7 +1,7 @@
 /**
  * ARPON — MALAYSIA 2027
- * Supabase Database & Realtime Sync Engine
- * Direct PostgreSQL & Realtime channel integration
+ * Supabase Database & Realtime Sync Engine (Ultra-Resilient)
+ * Realtime synchronization across all devices (PC, iOS, Tablet)
  */
 
 import { appState } from './state.js';
@@ -9,8 +9,8 @@ import { showToast } from './modals.js';
 
 const SUPABASE_STORAGE_KEY = 'arpon_supabase_config_v1';
 
-// User's configured Supabase project configuration
-const DEFAULT_SUPABASE_CONFIG = {
+// Arpon's Supabase Project Configuration
+const SUPABASE_CONFIG = {
   url: 'https://vahtkuhruwzjyzmrvskv.supabase.co',
   anonKey: 'sb_publishable_9ZJtBGLaq_GvpokdnpYkJQ_ZVBuZyqM',
   tableName: 'arpon_todos',
@@ -20,9 +20,11 @@ const DEFAULT_SUPABASE_CONFIG = {
 class SupabaseManager {
   constructor() {
     this.client = null;
-    this.config = { ...DEFAULT_SUPABASE_CONFIG };
+    this.config = { ...SUPABASE_CONFIG };
     this.isConnected = false;
     this.channel = null;
+    this.isRemoteApplying = false;
+    this.lastSentPayloadHash = '';
     this.init();
   }
 
@@ -43,18 +45,25 @@ class SupabaseManager {
   initClient() {
     if (window.supabase && this.config.url && this.config.anonKey) {
       try {
-        this.client = window.supabase.createClient(this.config.url, this.config.anonKey);
+        this.client = window.supabase.createClient(this.config.url, this.config.anonKey, {
+          realtime: {
+            params: {
+              eventsPerSecond: 10
+            }
+          }
+        });
         this.isConnected = true;
-        this.subscribeRealtime();
+        this.setupRealtimeListeners();
+        this.pullLatestOnStartup();
       } catch (e) {
-        console.warn('Supabase client init error, using cloud sync fallback', e);
+        console.warn('Supabase initialization fallback', e);
         this.isConnected = false;
       }
     }
   }
 
-  // Realtime WebSocket Channel Listener
-  subscribeRealtime() {
+  // Set up both Postgres CDC and Realtime Broadcast listeners
+  setupRealtimeListeners() {
     if (!this.client) return;
 
     try {
@@ -63,55 +72,58 @@ class SupabaseManager {
       }
 
       this.channel = this.client
-        .channel('arpon_realtime_tasks')
-        .on('broadcast', { event: 'task_update' }, (payload) => {
-          if (payload && payload.payload && payload.payload.sections) {
-            appState.sections = payload.payload.sections;
-            appState.save();
+        .channel('arpon_realtime_tasks_channel')
+        // 1. Broadcast channel (instant sub-300ms peer-to-peer relay)
+        .on('broadcast', { event: 'task_sync' }, (event) => {
+          if (event && event.payload && event.payload.sections) {
+            this.handleIncomingData(event.payload.sections, event.payload.updatedAt, event.payload.device);
           }
         })
-        .subscribe();
-    } catch (e) {
-      console.warn('Realtime channel error', e);
-    }
-  }
-
-  // Push task update to Supabase
-  async pushData(sections) {
-    if (!this.client || !this.isConnected) return false;
-
-    try {
-      // 1. Broadcast via Realtime channel
-      if (this.channel) {
-        this.channel.send({
-          type: 'broadcast',
-          event: 'task_update',
-          payload: {
-            sections,
-            updatedAt: new Date().toISOString(),
-            device: navigator.userAgent.includes('iPhone') ? 'iOS' : 'PC'
+        // 2. Postgres Database row changes (CDC)
+        .on(
+          'postgres_changes',
+          {
+            event: '*',
+            schema: 'public',
+            table: this.config.tableName,
+            filter: `id=eq.${this.config.userId}`
+          },
+          (payload) => {
+            if (payload && payload.new && payload.new.data) {
+              this.handleIncomingData(payload.new.data, payload.new.updated_at, 'Supabase DB');
+            }
+          }
+        )
+        .subscribe((status) => {
+          if (status === 'SUBSCRIBED') {
+            console.log('⚡ Supabase Realtime Connected across devices');
           }
         });
-      }
-
-      // 2. Persist to Supabase Database table
-      const { error } = await this.client
-        .from(this.config.tableName)
-        .upsert({
-          id: this.config.userId,
-          data: sections,
-          updated_at: new Date().toISOString()
-        });
-
-      return !error;
     } catch (e) {
-      return false;
+      console.warn('Realtime subscription error', e);
     }
   }
 
-  // Pull latest data from Supabase Database
-  async pullData() {
-    if (!this.client || !this.isConnected) return null;
+  // Handle incoming remote updates without glitching or looping
+  handleIncomingData(sections, updatedAt, sourceDevice = 'Cloud') {
+    if (!sections || !Array.isArray(sections)) return;
+
+    const payloadHash = JSON.stringify(sections);
+    if (payloadHash === this.lastSentPayloadHash) return;
+
+    this.isRemoteApplying = true;
+    this.lastSentPayloadHash = payloadHash;
+    appState.sections = sections;
+    appState.save();
+    this.isRemoteApplying = false;
+
+    // Optional subtle badge notification
+    console.log(`Synced from ${sourceDevice}`);
+  }
+
+  // Fetch initial data on startup to ensure instant cross-device parity
+  async pullLatestOnStartup() {
+    if (!this.client || !this.isConnected) return;
 
     try {
       const { data, error } = await this.client
@@ -120,12 +132,54 @@ class SupabaseManager {
         .eq('id', this.config.userId)
         .single();
 
-      if (!error && data && data.data) {
-        return data.data;
+      if (!error && data && data.data && Array.isArray(data.data)) {
+        this.handleIncomingData(data.data, data.updated_at, 'Supabase Database');
+      } else if (error && error.code === 'PGRST116') {
+        // No row yet, seed initial data to Supabase
+        await this.pushData(appState.sections);
       }
-      return null;
     } catch (e) {
-      return null;
+      console.warn('Initial Supabase pull error', e);
+    }
+  }
+
+  // Push local changes to Supabase Database & Realtime channel
+  async pushData(sections) {
+    if (!this.client || !this.isConnected || this.isRemoteApplying) return false;
+
+    const payloadHash = JSON.stringify(sections);
+    this.lastSentPayloadHash = payloadHash;
+
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    const deviceLabel = isIOS ? 'iPhone' : 'PC';
+    const nowIso = new Date().toISOString();
+
+    try {
+      // 1. Broadcast instantaneously via Realtime websocket
+      if (this.channel) {
+        this.channel.send({
+          type: 'broadcast',
+          event: 'task_sync',
+          payload: {
+            sections,
+            updatedAt: nowIso,
+            device: deviceLabel
+          }
+        });
+      }
+
+      // 2. Persist to PostgreSQL Table
+      const { error } = await this.client
+        .from(this.config.tableName)
+        .upsert({
+          id: this.config.userId,
+          data: sections,
+          updated_at: nowIso
+        });
+
+      return !error;
+    } catch (e) {
+      return false;
     }
   }
 
