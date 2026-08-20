@@ -52,10 +52,63 @@ class AppState {
     cloudSync.pushToCloud();
   }
 
-  // Apply updates from remote Supabase stream without bouncing back
-  applyRemoteUpdate(sections) {
-    if (!sections || !Array.isArray(sections)) return;
-    this.sections = sections;
+  // Apply updates from remote Supabase stream with smart non-destructive merging
+  applyRemoteUpdate(remoteSections) {
+    if (!remoteSections || !Array.isArray(remoteSections)) return;
+
+    // Smart Merge: Preserve completed tasks and custom tasks from local if remote is blank
+    const mergedSections = this.sections.map(localSec => {
+      const remoteSec = remoteSections.find(s => s.id === localSec.id);
+      if (!remoteSec) return localSec;
+
+      if (localSec.isCategorized && localSec.categories && remoteSec.categories) {
+        const mergedCategories = localSec.categories.map(localCat => {
+          const remoteCat = remoteSec.categories.find(c => c.id === localCat.id);
+          if (!remoteCat) return localCat;
+
+          // Merge tasks
+          const mergedTasks = [...remoteCat.tasks];
+          localCat.tasks.forEach(localTask => {
+            const remoteTaskIdx = mergedTasks.findIndex(t => t.id === localTask.id);
+            if (remoteTaskIdx !== -1) {
+              // If local was completed, keep completed
+              if (localTask.completed && !mergedTasks[remoteTaskIdx].completed) {
+                mergedTasks[remoteTaskIdx].completed = true;
+                mergedTasks[remoteTaskIdx].completedAt = localTask.completedAt || new Date().toISOString();
+              }
+            } else if (localTask.isCustom) {
+              // Keep custom added task
+              mergedTasks.push(localTask);
+            }
+          });
+
+          return { ...remoteCat, tasks: mergedTasks };
+        });
+
+        return { ...remoteSec, categories: mergedCategories };
+      } else if (localSec.tasks && remoteSec.tasks) {
+        const mergedTasks = [...remoteSec.tasks];
+        localSec.tasks.forEach(localTask => {
+          const remoteTaskIdx = mergedTasks.findIndex(t => t.id === localTask.id);
+          if (remoteTaskIdx !== -1) {
+            // If local was completed, keep completed
+            if (localTask.completed && !mergedTasks[remoteTaskIdx].completed) {
+              mergedTasks[remoteTaskIdx].completed = true;
+              mergedTasks[remoteTaskIdx].completedAt = localTask.completedAt || new Date().toISOString();
+            }
+          } else if (localTask.isCustom) {
+            // Keep custom added task
+            mergedTasks.push(localTask);
+          }
+        });
+
+        return { ...remoteSec, tasks: mergedTasks };
+      }
+
+      return remoteSec;
+    });
+
+    this.sections = mergedSections;
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify({
         version: '1.2',
