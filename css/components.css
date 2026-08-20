@@ -451,6 +451,17 @@
   transform: translateX(2px);
 }
 
+.upcoming-item.completed {
+  opacity: 0.7;
+  border-left: 2.5px solid rgba(16, 185, 129, 0.5);
+}
+
+.upcoming-item.completed .upcoming-item-text {
+  text-decoration: line-through;
+  text-decoration-color: rgba(212, 175, 55, 0.4);
+  color: #9BA3B8;
+}
+
 .upcoming-item-left {
   display: flex;
   align-items: center;
@@ -764,9 +775,19 @@
 }
 
 .task-card.completed {
-  background: rgba(12, 14, 20, 0.45);
-  border-color: rgba(255, 255, 255, 0.03);
-  box-shadow: none;
+  background: linear-gradient(145deg, rgba(14, 18, 28, 0.65) 0%, rgba(9, 11, 17, 0.75) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-left: 3px solid rgba(16, 185, 129, 0.55);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.02);
+  transition: all var(--duration-normal) var(--ease-out);
+}
+
+.task-card.completed:hover {
+  background: linear-gradient(145deg, rgba(18, 22, 34, 0.8) 0%, rgba(12, 14, 22, 0.9) 100%);
+  border-color: rgba(255, 255, 255, 0.1);
+  border-left-color: rgba(16, 185, 129, 0.85);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
+  transform: translateY(-1px);
 }
 
 .task-left {
@@ -841,9 +862,12 @@
 }
 
 .task-card.completed .task-title {
-  color: var(--text-muted);
+  color: #9BA3B8;
+  font-weight: 500;
   text-decoration: line-through;
-  text-decoration-color: rgba(212, 175, 55, 0.5);
+  text-decoration-color: rgba(212, 175, 55, 0.4);
+  text-decoration-thickness: 1.5px;
+  letter-spacing: 0.01em;
 }
 
 .task-meta {
@@ -855,13 +879,24 @@
   flex-wrap: wrap;
 }
 
+.task-card.completed .task-meta {
+  color: #6C7488;
+}
+
 .task-date-badge {
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  color: var(--accent-emerald);
+  color: #34D399;
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  padding: 2px 9px;
+  border-radius: var(--radius-full);
   font-family: var(--font-mono);
   font-size: 0.73rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.12);
 }
 
 .task-tag {
