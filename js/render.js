@@ -36,7 +36,9 @@ export const ICONS = {
   sparkles: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"></path></svg>`,
   download: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>`,
   checkCheck: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L7 17l-5-5"></path><path d="m22 10-7.5 7.5L13 16"></path></svg>`,
-  close: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>`
+  close: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>`,
+  arrowUp: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>`,
+  arrowDown: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg>`
 };
 
 function formatCompletedDate(isoString) {
@@ -439,7 +441,7 @@ export function renderChecklistPage(container, section) {
 
     <!-- TASK LIST -->
     <div class="task-list">
-      ${tasks.length > 0 ? tasks.map(task => renderTaskItem(task, section.id)).join('') : `
+      ${tasks.length > 0 ? tasks.map((task, idx) => renderTaskItem(task, section.id, null, idx)).join('') : `
         <div class="glass-card empty-state">
           <div class="empty-state-icon">${ICONS.search}</div>
           <div style="font-weight: 600; color: var(--text-secondary);">No tasks match your criteria</div>
@@ -550,7 +552,7 @@ export function renderShoppingPage(container, section) {
 
             <div class="accordion-body">
               <div class="task-list" style="margin-top: 10px;">
-                ${catTasks.length > 0 ? catTasks.map(task => renderTaskItem(task, section.id, category.id)).join('') : `
+                ${catTasks.length > 0 ? catTasks.map((task, idx) => renderTaskItem(task, section.id, category.id, idx)).join('') : `
                   <div style="padding: 16px; text-align: center; color: var(--text-muted); font-size: 0.85rem;">
                     No items match the current filter in this category.
                   </div>
@@ -574,13 +576,34 @@ export function renderShoppingPage(container, section) {
 // ==========================================================================
 // RENDER TASK ITEM
 // ==========================================================================
-function renderTaskItem(task, sectionId, categoryId = null) {
+function renderTaskItem(task, sectionId, categoryId = null, index = 0) {
   const isChecked = task.completed;
   const dateFormatted = formatCompletedDate(task.completedAt);
+  const serialNumber = String(index + 1).padStart(2, '0');
 
   return `
-    <div class="task-card ${isChecked ? 'completed' : ''}" id="task-card-${task.id}">
+    <div class="task-card ${isChecked ? 'completed' : ''}" 
+         id="task-card-${task.id}" 
+         draggable="true" 
+         data-task-id="${task.id}" 
+         data-section-id="${sectionId}" 
+         data-category-id="${categoryId || ''}">
       <div class="task-left">
+        <!-- REORDER GRIP & SERIAL BADGE -->
+        <div class="task-reorder-group">
+          <div class="task-drag-handle" title="Hold and drag to reorder" data-drag-handle="true">
+            <svg viewBox="0 0 16 16" fill="currentColor" width="13" height="13">
+              <circle cx="5" cy="3" r="1.3" />
+              <circle cx="11" cy="3" r="1.3" />
+              <circle cx="5" cy="8" r="1.3" />
+              <circle cx="11" cy="8" r="1.3" />
+              <circle cx="5" cy="13" r="1.3" />
+              <circle cx="11" cy="13" r="1.3" />
+            </svg>
+          </div>
+          <span class="task-serial-num" title="Serial #${serialNumber}">#${serialNumber}</span>
+        </div>
+
         <button class="custom-checkbox ${isChecked ? 'checked' : ''}" data-task-id="${task.id}" aria-label="Toggle ${task.title}">
           ${ICONS.check}
         </button>
@@ -597,6 +620,13 @@ function renderTaskItem(task, sectionId, categoryId = null) {
       </div>
 
       <div class="task-right-actions">
+        <!-- QUICK REORDER BUTTONS -->
+        <button class="task-action-btn move-btn" data-move-up="${task.id}" title="Move Up">
+          ${ICONS.arrowUp}
+        </button>
+        <button class="task-action-btn move-btn" data-move-down="${task.id}" title="Move Down">
+          ${ICONS.arrowDown}
+        </button>
         <button class="task-action-btn" data-edit-task="${task.id}" title="Edit Task">
           ${ICONS.edit}
         </button>

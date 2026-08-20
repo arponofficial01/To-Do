@@ -229,6 +229,75 @@ class AppState {
   }
 
   // ==========================================
+  // DRAG & DROP REORDERING
+  // ==========================================
+  reorderTask(sectionId, sourceTaskId, targetTaskId, categoryId = null, position = 'before') {
+    if (sourceTaskId === targetTaskId) return false;
+
+    const section = this.sections.find(s => s.id === sectionId);
+    if (!section) return false;
+
+    let list = null;
+    if (section.isCategorized && section.categories) {
+      const cat = (categoryId && section.categories.find(c => c.id === categoryId)) ||
+                  section.categories.find(c => c.tasks.some(t => t.id === sourceTaskId));
+      if (cat) list = cat.tasks;
+    } else if (section.tasks) {
+      list = section.tasks;
+    }
+
+    if (!list) return false;
+
+    const sourceIndex = list.findIndex(t => t.id === sourceTaskId);
+    const targetIndex = list.findIndex(t => t.id === targetTaskId);
+
+    if (sourceIndex === -1 || targetIndex === -1) return false;
+
+    const [movedTask] = list.splice(sourceIndex, 1);
+    const newTargetIndex = list.findIndex(t => t.id === targetTaskId);
+    const insertIndex = position === 'after' ? newTargetIndex + 1 : newTargetIndex;
+
+    list.splice(insertIndex, 0, movedTask);
+
+    this.save();
+    return true;
+  }
+
+  moveTaskDirection(taskId, direction = 'up') {
+    for (const section of this.sections) {
+      let list = null;
+      if (section.isCategorized && section.categories) {
+        for (const cat of section.categories) {
+          if (cat.tasks.some(t => t.id === taskId)) {
+            list = cat.tasks;
+            break;
+          }
+        }
+      } else if (section.tasks && section.tasks.some(t => t.id === taskId)) {
+        list = section.tasks;
+      }
+
+      if (list) {
+        const idx = list.findIndex(t => t.id === taskId);
+        if (idx === -1) return false;
+
+        if (direction === 'up' && idx > 0) {
+          const [item] = list.splice(idx, 1);
+          list.splice(idx - 1, 0, item);
+          this.save();
+          return true;
+        } else if (direction === 'down' && idx < list.length - 1) {
+          const [item] = list.splice(idx, 1);
+          list.splice(idx + 1, 0, item);
+          this.save();
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  // ==========================================
   // RESETS & BULK ACTIONS
   // ==========================================
   resetSection(sectionId) {

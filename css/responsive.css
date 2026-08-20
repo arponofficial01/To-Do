@@ -172,26 +172,45 @@
   }
 
   .task-card {
-    padding: 14px 14px;
-    gap: 12px;
+    padding: 12px 14px;
+    gap: 10px;
+  }
+
+  .task-left {
+    gap: 10px;
+  }
+
+  .task-drag-handle {
+    display: none; /* On mobile touch screens, rely on the 1-tap ▲/▼ buttons */
+  }
+
+  .task-serial-num {
+    font-size: 0.68rem;
+    padding: 1.5px 5px;
   }
 
   .custom-checkbox {
-    width: 26px;
-    height: 26px;
+    width: 24px;
+    height: 24px;
   }
 
   .task-title {
-    font-size: 0.9rem;
+    font-size: 0.88rem;
   }
 
   .task-right-actions {
     opacity: 1; /* Always visible on mobile */
+    gap: 4px;
   }
 
   .task-action-btn {
-    width: 32px;
-    height: 32px;
+    width: 28px;
+    height: 28px;
+  }
+
+  .task-action-btn svg {
+    width: 14px;
+    height: 14px;
   }
 }
 

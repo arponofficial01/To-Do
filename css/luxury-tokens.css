@@ -1,54 +1,59 @@
 /* ==========================================================================
-   ARPON — MALAYSIA 2027 | DESIGN TOKENS (ULTRA-LUXURY EDITION)
-   Deep Onyx & Obsidian • Champagne Gold Metallics • Multi-Layer Glassmorphism
+   ARPON — MALAYSIA 2027 | DESIGN TOKENS (1000X ULTRA-LUXURY EDITION)
+   Obsidian & Onyx • Roman & Champagne Gold • Architectural Glass Surfaces
    ========================================================================== */
 
 :root {
-  /* Ultra-Dark Luxury Obsidian & Onyx Foundation */
-  --bg-primary: #050608;
-  --bg-secondary: #0A0C11;
-  --bg-tertiary: #10131B;
-  --bg-surface: #141722;
-  
-  /* Glassmorphism Surfaces */
-  --bg-card: rgba(16, 19, 28, 0.7);
-  --bg-card-hover: rgba(22, 26, 38, 0.85);
-  --bg-card-solid: #131622;
+  /* Ultra-Deep Obsidian & Obsidian-Onyx Palette */
+  --bg-primary: #040507;
+  --bg-secondary: #080A0F;
+  --bg-tertiary: #0E1118;
+  --bg-surface: #121622;
+  --bg-surface-elevated: #171C2B;
+
+  /* Glassmorphism Layers */
+  --bg-card: rgba(14, 18, 28, 0.72);
+  --bg-card-hover: rgba(20, 25, 38, 0.88);
+  --bg-card-solid: #111420;
   --bg-glass: rgba(255, 255, 255, 0.025);
   --bg-glass-active: rgba(212, 175, 55, 0.08);
   --bg-glass-subtle: rgba(255, 255, 255, 0.015);
   --bg-glass-hover: rgba(255, 255, 255, 0.05);
 
-  /* Metallic Gold & Champagne Luxury Gradients */
+  /* Metallic Champagne & Roman Gold Master Gradients */
   --gold-primary: #D4AF37;
-  --gold-champagne: #F3E5AB;
+  --gold-champagne: #F5E6B3;
   --gold-metallic: #C5A059;
-  --gold-amber: #E5B84B;
+  --gold-amber: #E8BC52;
+  --gold-light: #FFF4D0;
   --gold-dark: #8F7224;
   --gold-deep: #5A4716;
 
-  /* Sophisticated Gradients */
-  --gold-gradient: linear-gradient(135deg, #FFF1C5 0%, #D4AF37 40%, #AA820A 100%);
-  --gold-gradient-sheen: linear-gradient(135deg, #FFFFFF 0%, #F5E2A8 30%, #D4AF37 70%, #947112 100%);
-  --gold-gradient-soft: linear-gradient(135deg, rgba(243, 229, 171, 0.14) 0%, rgba(212, 175, 55, 0.06) 100%);
-  --gold-gradient-border: linear-gradient(135deg, rgba(255, 241, 197, 0.45) 0%, rgba(212, 175, 55, 0.2) 40%, rgba(255, 255, 255, 0.05) 70%, rgba(212, 175, 55, 0.3) 100%);
-  --card-gradient: linear-gradient(145deg, rgba(20, 24, 36, 0.75) 0%, rgba(11, 13, 20, 0.85) 100%);
-  --hero-gradient: linear-gradient(135deg, rgba(22, 27, 40, 0.92) 0%, rgba(12, 14, 22, 0.96) 60%, rgba(18, 15, 10, 0.9) 100%);
+  /* Luxury Multi-Stop Gradients */
+  --gold-gradient: linear-gradient(135deg, #FFF6DA 0%, #D4AF37 45%, #9E7910 100%);
+  --gold-gradient-sheen: linear-gradient(135deg, #FFFFFF 0%, #F5E2A8 25%, #D4AF37 65%, #8C6A0C 100%);
+  --gold-gradient-soft: linear-gradient(135deg, rgba(245, 230, 179, 0.14) 0%, rgba(212, 175, 55, 0.05) 100%);
+  --gold-gradient-border: linear-gradient(135deg, rgba(255, 246, 218, 0.45) 0%, rgba(212, 175, 55, 0.22) 40%, rgba(255, 255, 255, 0.06) 70%, rgba(212, 175, 55, 0.3) 100%);
+  --card-gradient: linear-gradient(145deg, rgba(18, 22, 34, 0.78) 0%, rgba(10, 12, 18, 0.88) 100%);
+  --hero-gradient: linear-gradient(135deg, rgba(20, 25, 38, 0.94) 0%, rgba(10, 12, 20, 0.98) 60%, rgba(18, 14, 8, 0.92) 100%);
+  --emerald-gradient: linear-gradient(135deg, #34D399 0%, #10B981 50%, #059669 100%);
 
-  /* Ambient Glows & Luminous Shadows */
-  --gold-glow: 0 0 25px rgba(212, 175, 55, 0.28);
-  --gold-glow-subtle: 0 0 16px rgba(212, 175, 55, 0.15);
-  --gold-glow-sm: 0 0 8px rgba(212, 175, 55, 0.35);
+  /* Ambient Glows & Luminous Radiations */
+  --gold-glow: 0 0 25px rgba(212, 175, 55, 0.3);
+  --gold-glow-subtle: 0 0 16px rgba(212, 175, 55, 0.16);
+  --gold-glow-sm: 0 0 8px rgba(212, 175, 55, 0.4);
+  --emerald-glow: 0 0 16px rgba(16, 185, 129, 0.35);
 
-  /* Typography Colors */
+  /* Typography Scales */
   --text-primary: #F8F9FA;
-  --text-secondary: #C8CDD9;
-  --text-tertiary: #878E9F;
-  --text-muted: #53596A;
+  --text-secondary: #C5CBD8;
+  --text-tertiary: #848C9E;
+  --text-muted: #525868;
   --text-gold: #E8CA6B;
-  --text-gold-light: #FAF3E0;
+  --text-gold-light: #FAF4E4;
+  --text-completed: #A2AAB8;
 
-  /* Functional Status Colors */
+  /* Functional Accents */
   --accent-emerald: #10B981;
   --accent-emerald-glow: rgba(16, 185, 129, 0.25);
   --accent-blue: #3B82F6;
@@ -57,21 +62,21 @@
   --accent-danger: #EF4444;
 
   /* Borders & Inset Bevels */
-  --border-subtle: rgba(255, 255, 255, 0.06);
+  --border-subtle: rgba(255, 255, 255, 0.065);
   --border-glass: rgba(255, 255, 255, 0.09);
-  --border-gold-subtle: rgba(212, 175, 55, 0.2);
-  --border-gold-bright: rgba(212, 175, 55, 0.55);
-  --inset-highlight: inset 0 1px 1px rgba(255, 255, 255, 0.08);
-  --inset-gold: inset 0 1px 1px rgba(255, 241, 197, 0.2);
+  --border-gold-subtle: rgba(212, 175, 55, 0.22);
+  --border-gold-bright: rgba(212, 175, 55, 0.58);
+  --inset-highlight: inset 0 1px 1px rgba(255, 255, 255, 0.09);
+  --inset-gold: inset 0 1px 1px rgba(255, 246, 218, 0.24);
 
   /* Elevation Shadows */
   --shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.5);
-  --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.6);
-  --shadow-lg: 0 20px 50px rgba(0, 0, 0, 0.75);
-  --shadow-card: 0 12px 36px -4px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(255, 255, 255, 0.05);
-  --shadow-gold-card: 0 16px 40px -4px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(212, 175, 55, 0.25), 0 0 20px rgba(212, 175, 55, 0.08);
+  --shadow-md: 0 12px 32px rgba(0, 0, 0, 0.65);
+  --shadow-lg: 0 24px 60px rgba(0, 0, 0, 0.8);
+  --shadow-card: 0 14px 40px -4px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.05);
+  --shadow-gold-card: 0 18px 44px -4px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(212, 175, 55, 0.28), 0 0 24px rgba(212, 175, 55, 0.09);
 
-  /* Typography Scales */
+  /* Fonts */
   --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-brand: 'Cinzel', 'Playfair Display', Georgia, serif;
   --font-mono: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
@@ -86,22 +91,22 @@
   --space-2xl: 48px;
   --space-3xl: 64px;
 
-  /* Border Radii */
+  /* Radii */
   --radius-sm: 8px;
   --radius-md: 12px;
   --radius-lg: 18px;
   --radius-xl: 24px;
   --radius-full: 9999px;
 
-  /* Easing */
+  /* Easing & Timing */
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
   --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
-  --duration-fast: 140ms;
-  --duration-normal: 240ms;
-  --duration-smooth: 400ms;
+  --duration-fast: 130ms;
+  --duration-normal: 220ms;
+  --duration-smooth: 380ms;
 
-  /* Dimensions */
+  /* App Shell Dimensions */
   --header-height: 72px;
   --sidebar-width: 284px;
   --content-max-width: 1280px;

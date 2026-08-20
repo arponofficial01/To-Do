@@ -142,6 +142,26 @@ class SupabaseManager {
     }
   }
 
+  // Pull latest data explicitly from Supabase Table
+  async pullData() {
+    if (!this.client || !this.isConnected) return null;
+
+    try {
+      const { data, error } = await this.client
+        .from(this.config.tableName)
+        .select('*')
+        .eq('id', this.config.userId)
+        .single();
+
+      if (!error && data && data.data && Array.isArray(data.data)) {
+        return data.data;
+      }
+    } catch (e) {
+      console.warn('Supabase pullData error', e);
+    }
+    return null;
+  }
+
   // Push local changes to Supabase Database & Realtime channel
   async pushData(sections) {
     if (!this.client || !this.isConnected || this.isRemoteApplying) return false;

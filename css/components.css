@@ -1,5 +1,5 @@
 /* ==========================================================================
-   ARPON — MALAYSIA 2027 | COMPONENTS & LUXURY UI ELEMENTS
+   ARPON — MALAYSIA 2027 | COMPONENTS & ULTRA-LUXURY UI (1000X EDITION)
    ========================================================================== */
 
 /* ==========================================================================
@@ -8,8 +8,8 @@
 
 .glass-card {
   background: var(--card-gradient);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-card), var(--inset-highlight);
@@ -19,7 +19,7 @@
 }
 
 .glass-card:hover {
-  border-color: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.14);
   box-shadow: var(--shadow-md), var(--inset-highlight);
 }
 
@@ -36,7 +36,7 @@
   right: 0;
   height: 2px;
   background: var(--gold-gradient);
-  box-shadow: 0 0 10px rgba(212, 175, 55, 0.6);
+  box-shadow: 0 0 12px rgba(212, 175, 55, 0.65);
 }
 
 /* ==========================================================================
@@ -61,9 +61,9 @@
   position: absolute;
   top: 0;
   right: 0;
-  width: 400px;
+  width: 420px;
   height: 100%;
-  background: radial-gradient(circle at 85% 45%, rgba(212, 175, 55, 0.1) 0%, transparent 65%);
+  background: radial-gradient(circle at 85% 45%, rgba(212, 175, 55, 0.12) 0%, transparent 65%);
   pointer-events: none;
 }
 
@@ -71,8 +71,8 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: rgba(212, 175, 55, 0.12);
-  border: 1px solid rgba(212, 175, 55, 0.3);
+  background: rgba(212, 175, 55, 0.14);
+  border: 1px solid rgba(212, 175, 55, 0.35);
   border-radius: var(--radius-full);
   padding: 5px 14px;
   font-size: 0.76rem;
@@ -81,7 +81,7 @@
   letter-spacing: 0.08em;
   text-transform: uppercase;
   margin-bottom: 14px;
-  box-shadow: 0 0 14px rgba(212, 175, 55, 0.12);
+  box-shadow: 0 0 14px rgba(212, 175, 55, 0.14);
 }
 
 .hero-title {
@@ -129,7 +129,7 @@
 }
 
 .stage-badge {
-  background: linear-gradient(135deg, rgba(212, 175, 55, 0.2) 0%, rgba(20, 24, 36, 0.9) 100%);
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.22) 0%, rgba(20, 24, 36, 0.92) 100%);
   border: 1px solid var(--border-gold-bright);
   color: var(--text-gold-light);
   padding: 8px 18px;
@@ -137,7 +137,7 @@
   font-size: 0.84rem;
   font-weight: 700;
   letter-spacing: 0.05em;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4), 0 0 16px rgba(212, 175, 55, 0.15);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4), 0 0 16px rgba(212, 175, 55, 0.18);
 }
 
 .stats-grid {
@@ -152,12 +152,15 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+              border-color 0.2s ease,
+              box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .stat-card:hover {
-  transform: translateY(-2px);
-  border-color: rgba(212, 175, 55, 0.25);
-  box-shadow: var(--shadow-md), 0 0 18px rgba(212, 175, 55, 0.06);
+  transform: translateY(-3px);
+  border-color: rgba(212, 175, 55, 0.38);
+  box-shadow: var(--shadow-md), 0 0 24px rgba(212, 175, 55, 0.14);
 }
 
 .stat-header {
@@ -175,7 +178,7 @@
   width: 36px;
   height: 36px;
   border-radius: var(--radius-md);
-  background: linear-gradient(145deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.01) 100%);
   border: 1px solid var(--border-subtle);
   display: flex;
   align-items: center;
@@ -242,7 +245,7 @@
   background: var(--gold-gradient);
   border-radius: var(--radius-full);
   transition: width var(--duration-smooth) var(--ease-out);
-  box-shadow: 0 0 16px rgba(212, 175, 55, 0.5);
+  box-shadow: 0 0 16px rgba(212, 175, 55, 0.55);
 }
 
 .progress-circle-wrap {
@@ -259,7 +262,7 @@
   transform: rotate(-90deg);
   width: 100%;
   height: 100%;
-  filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.3));
+  filter: drop-shadow(0 0 12px rgba(212, 175, 55, 0.35));
 }
 
 .progress-circle-bg {
@@ -459,7 +462,7 @@
 .upcoming-item.completed .upcoming-item-text {
   text-decoration: line-through;
   text-decoration-color: rgba(212, 175, 55, 0.4);
-  color: #9BA3B8;
+  color: var(--text-completed);
 }
 
 .upcoming-item-left {
@@ -511,12 +514,17 @@
   justify-content: space-between;
   cursor: pointer;
   height: 165px;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+              border-color 0.2s ease,
+              box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              background 0.2s ease;
 }
 
 .section-overview-card:hover {
-  border-color: var(--border-gold-subtle);
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-md), 0 0 20px rgba(212, 175, 55, 0.1);
+  border-color: var(--border-gold-bright);
+  transform: translateY(-3.5px);
+  background: linear-gradient(145deg, rgba(26, 32, 48, 0.9) 0%, rgba(16, 19, 28, 0.98) 100%);
+  box-shadow: 0 16px 36px -4px rgba(0, 0, 0, 0.75), 0 0 24px rgba(212, 175, 55, 0.16);
 }
 
 .section-card-top {
@@ -758,36 +766,48 @@
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  padding: 15px 20px;
+  padding: 14px 20px;
   border-radius: var(--radius-md);
-  background: linear-gradient(145deg, rgba(20, 24, 36, 0.7) 0%, rgba(13, 15, 23, 0.8) 100%);
+  background: linear-gradient(145deg, rgba(20, 24, 36, 0.72) 0%, rgba(12, 14, 22, 0.82) 100%);
   border: 1px solid var(--border-subtle);
   box-shadow: var(--shadow-sm), var(--inset-highlight);
-  transition: all var(--duration-fast) var(--ease-out);
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+              border-color 0.2s ease,
+              background 0.2s ease,
+              box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   position: relative;
+  will-change: transform, box-shadow;
 }
 
 .task-card:hover {
-  border-color: rgba(255, 255, 255, 0.16);
-  background: linear-gradient(145deg, rgba(26, 31, 46, 0.85) 0%, rgba(16, 19, 28, 0.95) 100%);
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-md), 0 0 16px rgba(0, 0, 0, 0.4);
+  border-color: rgba(212, 175, 55, 0.32);
+  background: linear-gradient(145deg, rgba(26, 32, 48, 0.92) 0%, rgba(15, 18, 28, 0.98) 100%);
+  transform: translateY(-2.5px) scale(1.003);
+  box-shadow: 0 12px 28px -4px rgba(0, 0, 0, 0.65), 
+              0 0 20px rgba(212, 175, 55, 0.12),
+              inset 0 1px 1px rgba(255, 246, 218, 0.15);
 }
 
+/* Classy, Ultra-Readable Completed Task State */
 .task-card.completed {
   background: linear-gradient(145deg, rgba(14, 18, 28, 0.65) 0%, rgba(9, 11, 17, 0.75) 100%);
   border: 1px solid rgba(255, 255, 255, 0.05);
   border-left: 3px solid rgba(16, 185, 129, 0.55);
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.02);
-  transition: all var(--duration-normal) var(--ease-out);
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+              border-color 0.2s ease,
+              background 0.2s ease,
+              box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .task-card.completed:hover {
-  background: linear-gradient(145deg, rgba(18, 22, 34, 0.8) 0%, rgba(12, 14, 22, 0.9) 100%);
-  border-color: rgba(255, 255, 255, 0.1);
-  border-left-color: rgba(16, 185, 129, 0.85);
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
-  transform: translateY(-1px);
+  background: linear-gradient(145deg, rgba(18, 24, 36, 0.82) 0%, rgba(12, 15, 24, 0.92) 100%);
+  border-color: rgba(255, 255, 255, 0.12);
+  border-left-color: rgba(16, 185, 129, 0.95);
+  border-left-width: 3.5px;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px -4px rgba(0, 0, 0, 0.55), 
+              0 0 16px rgba(16, 185, 129, 0.14);
 }
 
 .task-left {
@@ -798,7 +818,7 @@
   min-width: 0;
 }
 
-/* Custom Metallic Gold Checkbox */
+/* Custom Metallic Gold Checkbox with Energetic Spring Physics */
 .custom-checkbox {
   position: relative;
   width: 24px;
@@ -811,15 +831,22 @@
   justify-content: center;
   cursor: pointer;
   flex-shrink: 0;
-  transition: all var(--duration-fast) var(--ease-spring);
+  transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1),
+              border-color 0.18s ease,
+              background 0.18s ease,
+              box-shadow 0.22s ease;
   box-shadow: var(--inset-highlight);
 }
 
 .custom-checkbox:hover {
   border-color: var(--gold-primary);
-  background: rgba(212, 175, 55, 0.1);
-  transform: scale(1.08);
-  box-shadow: 0 0 12px rgba(212, 175, 55, 0.25);
+  background: rgba(212, 175, 55, 0.12);
+  transform: scale(1.14);
+  box-shadow: 0 0 14px rgba(212, 175, 55, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.3);
+}
+
+.custom-checkbox:active {
+  transform: scale(0.92);
 }
 
 .custom-checkbox.checked {
@@ -827,6 +854,11 @@
   border-color: var(--gold-primary);
   box-shadow: 0 0 14px rgba(212, 175, 55, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.5);
   transform: scale(1);
+}
+
+.custom-checkbox.checked:hover {
+  transform: scale(1.08);
+  box-shadow: 0 0 18px rgba(212, 175, 55, 0.65), inset 0 1px 1px rgba(255, 255, 255, 0.6);
 }
 
 .custom-checkbox svg {
@@ -862,11 +894,11 @@
 }
 
 .task-card.completed .task-title {
-  color: #9BA3B8;
+  color: #929AA8;
   font-weight: 500;
   text-decoration: line-through;
-  text-decoration-color: rgba(212, 175, 55, 0.4);
-  text-decoration-thickness: 1.5px;
+  text-decoration-color: rgba(212, 175, 55, 0.85);
+  text-decoration-thickness: 2.2px;
   letter-spacing: 0.01em;
 }
 
@@ -883,20 +915,113 @@
   color: #6C7488;
 }
 
+/* Slim, Ultra-Refined Done Green Badge */
 .task-date-badge {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
+  gap: 4px;
   color: #34D399;
-  background: rgba(16, 185, 129, 0.1);
-  border: 1px solid rgba(16, 185, 129, 0.25);
-  padding: 2px 9px;
+  background: rgba(16, 185, 129, 0.08);
+  border: 1px solid rgba(52, 211, 153, 0.22);
+  padding: 1.5px 7px;
   border-radius: var(--radius-full);
   font-family: var(--font-mono);
-  font-size: 0.73rem;
+  font-size: 0.68rem;
   font-weight: 600;
-  letter-spacing: 0.02em;
-  box-shadow: 0 0 10px rgba(16, 185, 129, 0.12);
+  letter-spacing: 0.03em;
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.1);
+  line-height: 1.2;
+}
+
+.task-date-badge svg {
+  width: 10px;
+  height: 10px;
+}
+
+/* Reorder Group & Serial Badge */
+.task-reorder-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.task-serial-num {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--gold-metallic);
+  background: rgba(212, 175, 55, 0.08);
+  border: 1px solid rgba(212, 175, 55, 0.22);
+  padding: 2px 7px;
+  border-radius: var(--radius-sm);
+  letter-spacing: 0.04em;
+  flex-shrink: 0;
+  transition: all var(--duration-fast);
+}
+
+.task-card:hover .task-serial-num {
+  background: rgba(212, 175, 55, 0.16);
+  border-color: rgba(212, 175, 55, 0.45);
+  color: var(--text-gold-light);
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
+}
+
+/* Drag and Drop Reordering */
+.task-drag-handle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 28px;
+  color: var(--text-muted);
+  cursor: grab;
+  cursor: -webkit-grab;
+  opacity: 0.45;
+  border-radius: var(--radius-sm);
+  transition: all var(--duration-fast);
+  flex-shrink: 0;
+}
+
+.task-drag-handle:hover,
+.task-card:hover .task-drag-handle {
+  opacity: 1;
+  color: var(--gold-primary);
+  background: rgba(212, 175, 55, 0.1);
+}
+
+.task-drag-handle:active {
+  cursor: grabbing;
+  cursor: -webkit-grabbing;
+}
+
+.task-card.dragging {
+  opacity: 0.35 !important;
+  transform: scale(0.98) !important;
+  border: 1px dashed var(--gold-primary) !important;
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.25) !important;
+}
+
+.task-card.drag-over-top {
+  border-top: 2.5px solid var(--gold-primary) !important;
+  box-shadow: 0 -6px 16px rgba(212, 175, 55, 0.35) !important;
+}
+
+.task-card.drag-over-bottom {
+  border-bottom: 2.5px solid var(--gold-primary) !important;
+  box-shadow: 0 6px 16px rgba(212, 175, 55, 0.35) !important;
+}
+
+.task-action-btn.move-btn {
+  color: var(--text-tertiary);
+  opacity: 0.7;
+}
+
+.task-action-btn.move-btn:hover {
+  color: var(--gold-primary);
+  border-color: rgba(212, 175, 55, 0.4);
+  background: rgba(212, 175, 55, 0.12);
+  opacity: 1;
 }
 
 .task-tag {
@@ -931,15 +1056,16 @@
   color: var(--text-tertiary);
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid var(--border-subtle);
-  transition: all var(--duration-fast);
+  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
   cursor: pointer;
 }
 
 .task-action-btn:hover {
   color: var(--text-primary);
-  border-color: rgba(255, 255, 255, 0.2);
-  background: rgba(255, 255, 255, 0.09);
-  transform: translateY(-1px);
+  border-color: rgba(212, 175, 55, 0.4);
+  background: rgba(212, 175, 55, 0.12);
+  transform: translateY(-2px) scale(1.08);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4), 0 0 10px rgba(212, 175, 55, 0.2);
 }
 
 .task-action-btn.delete-btn:hover {
@@ -968,8 +1094,8 @@
 }
 
 .accordion-item.open {
-  border-color: rgba(212, 175, 55, 0.25);
-  box-shadow: var(--shadow-md), 0 0 20px rgba(212, 175, 55, 0.06);
+  border-color: rgba(212, 175, 55, 0.28);
+  box-shadow: var(--shadow-md), 0 0 20px rgba(212, 175, 55, 0.08);
 }
 
 .accordion-header {

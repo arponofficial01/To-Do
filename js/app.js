@@ -158,7 +158,28 @@ function initGlobalEventListeners() {
       return;
     }
 
-    // 4. Edit Task Button
+    // 4. Quick Move Up / Down Buttons
+    const moveUpBtn = e.target.closest('[data-move-up]');
+    if (moveUpBtn) {
+      const taskId = moveUpBtn.dataset.moveUp;
+      const moved = appState.moveTaskDirection(taskId, 'up');
+      if (moved) {
+        playHapticTone('check');
+      }
+      return;
+    }
+
+    const moveDownBtn = e.target.closest('[data-move-down]');
+    if (moveDownBtn) {
+      const taskId = moveDownBtn.dataset.moveDown;
+      const moved = appState.moveTaskDirection(taskId, 'down');
+      if (moved) {
+        playHapticTone('check');
+      }
+      return;
+    }
+
+    // 5. Edit Task Button
     const editBtn = e.target.closest('[data-edit-task]');
     if (editBtn) {
       const taskId = editBtn.dataset.editTask;
@@ -166,7 +187,7 @@ function initGlobalEventListeners() {
       return;
     }
 
-    // 5. Delete Task Button
+    // 6. Delete Task Button
     const deleteBtn = e.target.closest('[data-delete-task]');
     if (deleteBtn) {
       const taskId = deleteBtn.dataset.deleteTask;
@@ -285,6 +306,119 @@ function initGlobalEventListeners() {
     if (e.target.id === 'page-search-input') {
       appState.setSearchQuery(e.target.value);
     }
+  });
+
+  // ==========================================================================
+  // DRAG AND DROP TASK REORDERING HANDLERS
+  // ==========================================================================
+  let draggedCard = null;
+  let draggedData = null;
+
+  document.addEventListener('dragstart', (e) => {
+    const card = e.target.closest('.task-card');
+    if (!card) return;
+
+    draggedCard = card;
+    draggedData = {
+      taskId: card.dataset.taskId,
+      sectionId: card.dataset.sectionId,
+      categoryId: card.dataset.categoryId || null
+    };
+
+    e.dataTransfer.effectAllowed = 'move';
+    try {
+      e.dataTransfer.setData('text/plain', JSON.stringify(draggedData));
+    } catch (err) {}
+
+    setTimeout(() => {
+      if (draggedCard) draggedCard.classList.add('dragging');
+    }, 0);
+  });
+
+  document.addEventListener('dragover', (e) => {
+    if (!draggedCard || !draggedData) return;
+
+    const targetCard = e.target.closest('.task-card');
+    if (!targetCard || targetCard === draggedCard) return;
+
+    if (targetCard.dataset.sectionId !== draggedData.sectionId) return;
+    if ((targetCard.dataset.categoryId || null) !== draggedData.categoryId) return;
+
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+
+    const rect = targetCard.getBoundingClientRect();
+    const offset = e.clientY - rect.top;
+    const isTop = offset < rect.height / 2;
+
+    document.querySelectorAll('.task-card.drag-over-top, .task-card.drag-over-bottom').forEach(el => {
+      if (el !== targetCard) {
+        el.classList.remove('drag-over-top', 'drag-over-bottom');
+      }
+    });
+
+    if (isTop) {
+      targetCard.classList.add('drag-over-top');
+      targetCard.classList.remove('drag-over-bottom');
+    } else {
+      targetCard.classList.add('drag-over-bottom');
+      targetCard.classList.remove('drag-over-top');
+    }
+  });
+
+  document.addEventListener('dragleave', (e) => {
+    const targetCard = e.target.closest('.task-card');
+    if (targetCard && !targetCard.contains(e.relatedTarget)) {
+      targetCard.classList.remove('drag-over-top', 'drag-over-bottom');
+    }
+  });
+
+  document.addEventListener('dragend', () => {
+    if (draggedCard) {
+      draggedCard.classList.remove('dragging');
+    }
+    document.querySelectorAll('.task-card.drag-over-top, .task-card.drag-over-bottom').forEach(el => {
+      el.classList.remove('drag-over-top', 'drag-over-bottom');
+    });
+    draggedCard = null;
+    draggedData = null;
+  });
+
+  document.addEventListener('drop', (e) => {
+    if (!draggedCard || !draggedData) return;
+
+    const targetCard = e.target.closest('.task-card');
+    if (!targetCard || targetCard === draggedCard) return;
+
+    e.preventDefault();
+
+    const targetTaskId = targetCard.dataset.taskId;
+    const targetSectionId = targetCard.dataset.sectionId;
+    const targetCategoryId = targetCard.dataset.categoryId || null;
+
+    if (targetSectionId !== draggedData.sectionId) return;
+    if (targetCategoryId !== draggedData.categoryId) return;
+
+    const isTop = targetCard.classList.contains('drag-over-top');
+
+    const success = appState.reorderTask(
+      draggedData.sectionId,
+      draggedData.taskId,
+      targetTaskId,
+      draggedData.categoryId,
+      isTop ? 'before' : 'after'
+    );
+
+    if (success) {
+      playHapticTone('check');
+      showToast('Task reordered & saved', 'info');
+    }
+
+    document.querySelectorAll('.task-card.drag-over-top, .task-card.drag-over-bottom, .task-card.dragging').forEach(el => {
+      el.classList.remove('drag-over-top', 'drag-over-bottom', 'dragging');
+    });
+    draggedCard = null;
+    draggedData = null;
   });
 }
 

@@ -19,8 +19,20 @@ class CloudSyncEngine {
   }
 
   init() {
-    // Start periodic background check (every 5 seconds) to ensure all devices stay in sync
+    // Start periodic background check (every 4 seconds) to ensure all devices stay in sync
     this.startPolling();
+
+    // Auto-sync the moment user unlocks iPhone, opens Safari tab, or returns to app
+    if (typeof window !== 'undefined') {
+      window.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'visible') {
+          this.pullFromCloud();
+        }
+      });
+      window.addEventListener('focus', () => this.pullFromCloud());
+      window.addEventListener('pageshow', () => this.pullFromCloud());
+      window.addEventListener('online', () => this.pullFromCloud());
+    }
   }
 
   subscribe(listener) {
